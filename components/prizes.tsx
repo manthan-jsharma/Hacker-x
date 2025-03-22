@@ -521,7 +521,9 @@ export default function Prizes() {
                 {/* 3D Model Canvas */}
                 <div className="mb-4 h-40 w-full">
                   <canvas
-                    ref={(el) => (canvasRefs.current[index] = el)}
+                    ref={(el) => {
+                      canvasRefs.current[index] = el;
+                    }}
                     className="w-full h-full"
                   />
                 </div>
