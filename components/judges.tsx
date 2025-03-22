@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
@@ -13,8 +13,8 @@ const judges = [
     name: "Dr. Sarah Chen",
     role: "AI Research Director",
     company: "TechGiant",
-    image: "/judge5.png",
-    bio: "Leading AI researcher with over 15 years of experience in machine learning and neural networks.",
+    image: "/placeholder.svg",
+    bio: "Leading AI researcher with over 15 years of experience in machine learning and neural networks. Dr. Chen has published numerous papers on artificial intelligence and has been a keynote speaker at major tech conferences worldwide.",
     social: {
       twitter: "#",
       linkedin: "#",
@@ -25,8 +25,8 @@ const judges = [
     name: "Michael Rodriguez",
     role: "CTO",
     company: "InnovateCorp",
-    image: "/judge6.png",
-    bio: "Serial entrepreneur who has founded three successful tech startups in the last decade.",
+    image: "/placeholder.svg",
+    bio: "Serial entrepreneur who has founded three successful tech startups in the last decade. Michael brings a wealth of experience in scaling technology solutions and identifying promising innovations with market potential.",
     social: {
       twitter: "#",
       linkedin: "#",
@@ -37,8 +37,8 @@ const judges = [
     name: "Aisha Patel",
     role: "VP of Engineering",
     company: "FutureTech",
-    image: "/judje4.png",
-    bio: "Engineering leader specializing in scalable systems and cloud architecture.",
+    image: "/placeholder.svg",
+    bio: "Engineering leader specializing in scalable systems and cloud architecture. Aisha has led engineering teams at several Fortune 500 companies and has a passion for mentoring the next generation of tech talent.",
     social: {
       twitter: "#",
       linkedin: "#",
@@ -49,8 +49,8 @@ const judges = [
     name: "James Wilson",
     role: "Venture Partner",
     company: "Tech Ventures",
-    image: "/judje3.png",
-    bio: "Investor with a portfolio of over 50 tech startups and expertise in scaling early-stage companies.",
+    image: "/placeholder.svg",
+    bio: "Investor with a portfolio of over 50 tech startups and expertise in scaling early-stage companies. James has a keen eye for disruptive technologies and has helped numerous founders turn their ideas into successful businesses.",
     social: {
       twitter: "#",
       linkedin: "#",
@@ -61,8 +61,8 @@ const judges = [
     name: "Dr. Elena Kim",
     role: "Professor",
     company: "MIT",
-    image: "/judje1.png",
-    bio: "Award-winning computer science professor specializing in distributed systems and blockchain.",
+    image: "/placeholder.svg",
+    bio: "Award-winning computer science professor specializing in distributed systems and blockchain. Dr. Kim's research has been instrumental in advancing the field of decentralized technologies and secure computing.",
     social: {
       twitter: "#",
       linkedin: "#",
@@ -73,8 +73,8 @@ const judges = [
     name: "David Okafor",
     role: "Product Director",
     company: "DevSolutions",
-    image: "/judje2.png",
-    bio: "Product visionary with experience leading teams at some of the world's most innovative companies.",
+    image: "/placeholder.svg",
+    bio: "Product visionary with experience leading teams at some of the world's most innovative companies. David has a track record of turning complex technical solutions into user-friendly products that solve real-world problems.",
     social: {
       twitter: "#",
       linkedin: "#",
@@ -114,7 +114,9 @@ export default function Judges() {
   const sectionRef = useRef<HTMLElement>(null);
   const judgesRef = useRef<HTMLDivElement>(null);
   const processRef = useRef<HTMLDivElement>(null);
+  const [activeJudge, setActiveJudge] = useState(0);
 
+  // GSAP animations
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Animate section title
@@ -132,21 +134,104 @@ export default function Judges() {
         }
       );
 
-      // Animate judge cards
-      gsap.fromTo(
-        ".judge-card",
-        { y: 50, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.1,
-          duration: 0.8,
-          scrollTrigger: {
-            trigger: judgesRef.current,
-            start: "top 70%",
+      // Create scroll-triggered animations for each judge
+      judges.forEach((_, index) => {
+        // Create a ScrollTrigger for each judge
+        ScrollTrigger.create({
+          trigger: `.judge-section-${index}`,
+          start: "top center",
+          end: "bottom center",
+          onEnter: () => setActiveJudge(index),
+          onEnterBack: () => setActiveJudge(index),
+          markers: false,
+        });
+
+        // Animate judge image
+        gsap.fromTo(
+          `.judge-image-${index}`,
+          {
+            x: index % 2 === 0 ? -100 : 100,
+            opacity: 0,
+            scale: 0.9,
           },
-        }
-      );
+          {
+            x: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: `.judge-section-${index}`,
+              start: "top 70%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+
+        // Animate judge info
+        gsap.fromTo(
+          `.judge-info-${index}`,
+          {
+            x: index % 2 === 0 ? 100 : -100,
+            opacity: 0,
+          },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 1,
+            delay: 0.2,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: `.judge-section-${index}`,
+              start: "top 70%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+
+        // Animate judge bio text reveal
+        gsap.fromTo(
+          `.judge-bio-${index}`,
+          {
+            y: 30,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.8,
+            delay: 0.4,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: `.judge-section-${index}`,
+              start: "top 70%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+
+        // Animate social icons
+        gsap.fromTo(
+          `.judge-social-${index} a`,
+          {
+            y: 20,
+            opacity: 0,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            stagger: 0.1,
+            duration: 0.6,
+            delay: 0.6,
+            ease: "back.out(1.7)",
+            scrollTrigger: {
+              trigger: `.judge-section-${index}`,
+              start: "top 70%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
+      });
 
       // Animate process steps
       gsap.fromTo(
@@ -163,6 +248,18 @@ export default function Judges() {
           },
         }
       );
+
+      // Create a progress indicator animation
+      gsap.to(".judges-progress-bar", {
+        height: "100%",
+        ease: "none",
+        scrollTrigger: {
+          trigger: judgesRef.current,
+          start: "top top",
+          end: "bottom bottom",
+          scrub: 0.3,
+        },
+      });
     });
 
     return () => ctx.revert();
@@ -187,56 +284,114 @@ export default function Judges() {
           </p>
         </div>
 
-        {/* Judges Grid */}
-        <div
-          ref={judgesRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20"
-        >
+        {/* Vertical progress indicator */}
+        <div className="fixed left-8 top-1/2 transform -translate-y-1/2 h-1/3 w-1 bg-gray-800 rounded-full z-50 hidden lg:block">
+          <div className="judges-progress-bar w-full bg-primary rounded-full"></div>
+        </div>
+
+        {/* Judges vertical layout */}
+        <div ref={judgesRef} className="space-y-40 mb-20">
           {judges.map((judge, index) => (
-            <div key={index} className="judge-card group">
-              <div className="bg-gray-900/80 backdrop-blur-sm rounded-xl border border-gray-800 overflow-hidden group-hover:border-primary/50 transition-all duration-300">
-                <div className="relative h-64 overflow-hidden">
+            <div
+              key={index}
+              className={`judge-section-${index} min-h-screen flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16 ${
+                index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+              }`}
+            >
+              {/* Judge Image */}
+              <div className={`judge-image-${index} w-full md:w-1/2 relative`}>
+                <div className="relative h-[70vh] w-full overflow-hidden rounded-2xl">
                   <Image
                     src={judge.image || "/placeholder.svg"}
                     alt={judge.name}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    className="object-cover transition-transform duration-700 hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-70"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
 
-                  <div className="absolute bottom-0 left-0 w-full p-4">
-                    <h3 className="text-xl font-bold">{judge.name}</h3>
-                    <p className="text-primary">{judge.role}</p>
-                    <p className="text-sm text-gray-300">{judge.company}</p>
+                  {/* Decorative elements */}
+                  <div className="absolute top-4 left-4 w-16 h-16">
+                    <svg
+                      viewBox="0 0 100 100"
+                      className="w-full h-full text-primary/50"
+                    >
+                      <path
+                        d="M0,0 L100,0 L100,20 L20,20 L20,100 L0,100 Z"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                    </svg>
+                  </div>
+                  <div className="absolute bottom-4 right-4 w-16 h-16">
+                    <svg
+                      viewBox="0 0 100 100"
+                      className="w-full h-full text-primary/50"
+                    >
+                      <path
+                        d="M100,100 L0,100 L0,80 L80,80 L80,0 L100,0 Z"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                    </svg>
                   </div>
                 </div>
+              </div>
 
-                <div className="p-6">
-                  <p className="text-gray-400 mb-4">{judge.bio}</p>
+              {/* Judge Info */}
+              <div className={`judge-info-${index} w-full md:w-1/2 p-6`}>
+                <div className="space-y-4">
+                  <div className="inline-block px-4 py-1 bg-primary/10 border border-primary/30 rounded-full mb-2">
+                    <span className="text-primary font-mono text-sm">
+                      {judge.role}
+                    </span>
+                  </div>
 
-                  <div className="flex space-x-4">
+                  <h3 className="text-4xl font-bold">{judge.name}</h3>
+                  <p className="text-xl text-primary">{judge.company}</p>
+
+                  <div
+                    className={`judge-bio-${index} text-gray-300 text-lg leading-relaxed mt-6`}
+                  >
+                    {judge.bio}
+                  </div>
+
+                  <div className={`judge-social-${index} flex space-x-6 mt-8`}>
                     <a
                       href={judge.social.twitter}
-                      className="text-gray-400 hover:text-primary transition-colors"
+                      className="text-gray-400 hover:text-primary transition-colors transform hover:scale-110 duration-300"
                     >
-                      <Twitter className="h-5 w-5" />
+                      <Twitter className="h-6 w-6" />
                     </a>
                     <a
                       href={judge.social.linkedin}
-                      className="text-gray-400 hover:text-primary transition-colors"
+                      className="text-gray-400 hover:text-primary transition-colors transform hover:scale-110 duration-300"
                     >
-                      <Linkedin className="h-5 w-5" />
+                      <Linkedin className="h-6 w-6" />
                     </a>
                     <a
                       href={judge.social.github}
-                      className="text-gray-400 hover:text-primary transition-colors"
+                      className="text-gray-400 hover:text-primary transition-colors transform hover:scale-110 duration-300"
                     >
-                      <Github className="h-5 w-5" />
+                      <Github className="h-6 w-6" />
                     </a>
                   </div>
                 </div>
               </div>
             </div>
+          ))}
+        </div>
+
+        {/* Judge indicator dots (mobile only) */}
+        <div className="flex justify-center space-x-2 mb-16 md:hidden">
+          {judges.map((_, index) => (
+            <div
+              key={index}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                activeJudge === index ? "bg-primary scale-125" : "bg-gray-600"
+              }`}
+            ></div>
           ))}
         </div>
 
@@ -275,6 +430,20 @@ export default function Judges() {
           </div>
         </div>
       </div>
+
+      {/* CSS for scroll-based animations */}
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </section>
   );
 }
