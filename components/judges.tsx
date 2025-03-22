@@ -13,7 +13,7 @@ const judges = [
     name: "Dr. Sarah Chen",
     role: "AI Research Director",
     company: "TechGiant",
-    image: "/placeholder.svg",
+    image: "/judje1.png",
     bio: "Leading AI researcher with over 15 years of experience in machine learning and neural networks. Dr. Chen has published numerous papers on artificial intelligence and has been a keynote speaker at major tech conferences worldwide.",
     social: {
       twitter: "#",
@@ -25,7 +25,7 @@ const judges = [
     name: "Michael Rodriguez",
     role: "CTO",
     company: "InnovateCorp",
-    image: "/placeholder.svg",
+    image: "/judje2.png",
     bio: "Serial entrepreneur who has founded three successful tech startups in the last decade. Michael brings a wealth of experience in scaling technology solutions and identifying promising innovations with market potential.",
     social: {
       twitter: "#",
@@ -37,7 +37,7 @@ const judges = [
     name: "Aisha Patel",
     role: "VP of Engineering",
     company: "FutureTech",
-    image: "/placeholder.svg",
+    image: "/judje3.png",
     bio: "Engineering leader specializing in scalable systems and cloud architecture. Aisha has led engineering teams at several Fortune 500 companies and has a passion for mentoring the next generation of tech talent.",
     social: {
       twitter: "#",
@@ -49,7 +49,7 @@ const judges = [
     name: "James Wilson",
     role: "Venture Partner",
     company: "Tech Ventures",
-    image: "/placeholder.svg",
+    image: "/judje4.png",
     bio: "Investor with a portfolio of over 50 tech startups and expertise in scaling early-stage companies. James has a keen eye for disruptive technologies and has helped numerous founders turn their ideas into successful businesses.",
     social: {
       twitter: "#",
@@ -61,7 +61,7 @@ const judges = [
     name: "Dr. Elena Kim",
     role: "Professor",
     company: "MIT",
-    image: "/placeholder.svg",
+    image: "/judge5.png",
     bio: "Award-winning computer science professor specializing in distributed systems and blockchain. Dr. Kim's research has been instrumental in advancing the field of decentralized technologies and secure computing.",
     social: {
       twitter: "#",
@@ -73,7 +73,7 @@ const judges = [
     name: "David Okafor",
     role: "Product Director",
     company: "DevSolutions",
-    image: "/placeholder.svg",
+    image: "/judge6.png",
     bio: "Product visionary with experience leading teams at some of the world's most innovative companies. David has a track record of turning complex technical solutions into user-friendly products that solve real-world problems.",
     social: {
       twitter: "#",
